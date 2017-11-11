@@ -107,6 +107,9 @@
 				<span class='subcountertext text'>
 					Pages Left
 				</span>
+				<span id = 'page_indicator' class='subcountertext text'>
+					0 / 0
+				</span>
 				<div class = "progress-bardiv">
 					<span id = 'percent' class = 'progresstext stdspace text'>
 						0 %
@@ -135,6 +138,7 @@
 
 <script>
 	document.getElementById('progress').style.width = 0;
+	document.getElementById('page_indicator').innerHTML = 0 + " / " + 0;
 	document.getElementById('percent').innerHTML = 0 + " %";
 
 	//variables
@@ -150,6 +154,7 @@
 		
 		diff = end - start;
 		document.getElementById('remaining_pages').innerHTML = diff;
+		document.getElementById('page_indicator').innerHTML = start + " / " + end;
 
 		console.log("Starting Page: " + start);
 		console.log("End Page: " + end);	
@@ -158,10 +163,13 @@
 	document.getElementById('next').onclick = () => {
 		if(progress != diff && start != null && end != null){
 			progress++;
+			start = parseInt(start);
+			let updatePage = start + progress;
 			console.log("Counter: " + progress);
 			
 			document.getElementById('remaining_pages').innerHTML = diff - progress; //update pages
-			
+			document.getElementById('page_indicator').innerHTML = updatePage + " / " + end;
+
 			let percent = (progress/diff) * 100;
 			percent = Math.round(percent * 100) / 100;
 			document.getElementById('percent').innerHTML = percent + " %"; //update percent
