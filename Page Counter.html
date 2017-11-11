@@ -1,0 +1,176 @@
+<html>
+	<header>
+		<style>
+			.text {
+				font-family: Montserrat;
+			}
+
+			.container {
+				display: flex;
+				flex: auto;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+
+			.countertext {
+				font-size: 20em;
+			}
+
+			.counterdiv {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.form {
+				align-self: flex-start;
+			}
+
+			.stdspace {
+				margin-left: 5px;
+				margin-right: 5px;
+			}
+
+			.subcountertext{
+				font-size: 2em;
+			}
+
+			.messagediv {
+				margin-top: 5em;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.progress-bar {
+				border: 0.5px solid black;
+				width: 1000;
+				height: 50;
+			}
+
+			#progress {
+				height: 50;
+				background-color: green;
+			}
+
+			.progress-bardiv {
+				margin-top: 2.5em;
+				display: flex; 
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.progresstext {
+				font-size: 2em;
+			}
+
+			.form_button {
+				padding: .5em;
+				padding-left: 1em;
+				padding-right: 1em;
+			}
+
+			.nextPage {
+				display: flex;
+				background-color: green;
+				padding: 1.5em;
+			}
+
+			.resetPage {
+				display: flex;
+				background-color: white;
+				border: 1px solid black;
+				padding: 1.5em;
+			}
+
+		</style>
+		<title>
+			Counter
+		</title>
+	</header>
+	<body>
+		<div class='container'>
+			<div class = 'form'>
+				<span class = 'text stdspace'>Starting Page Number</span>
+				<input id = 'startpage' class = 'stdspace' />
+				<span class = 'text stdspace'>Ending Page Number</span>
+				<input id = 'endpage' class = 'stdspace' />
+				<button onClick = 'clicked()' form_button'>Enter</button>
+			</div>
+			<div class = 'counterdiv'>
+				<span id = 'remaining_pages' class='countertext text'>
+					0
+				</span>
+				<span class='subcountertext text'>
+					Pages Left
+				</span>
+				<div class = "progress-bardiv">
+					<span id = 'percent' class = 'progresstext stdspace text'>
+						0 %
+					</span>
+					<div class = 'stdspace progress-bar'>
+						<div id = 'progress'>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class = 'messagediv'>
+				<div id = 'next' class = 'stdspace nextPage'>
+					<span class = 'text' style='color: white'>
+						Next Page
+					</span>
+				</div>
+				<div id = 'reset' class = 'stdspace resetPage'>
+					<span class = 'text' style='color: black'>
+						Reset Page
+					</span>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+	document.getElementById('progress').style.width = 0;
+	document.getElementById('percent').innerHTML = 0 + " %";
+
+	//variables
+	let start = null;
+	let end = null;
+	let diff = null;
+	let progress = 0;
+	let percent = 0;
+
+	function clicked() {
+		start = document.getElementById('startpage').value;
+		end = document.getElementById('endpage').value;
+		
+		diff = end - start;
+		document.getElementById('remaining_pages').innerHTML = diff;
+
+		console.log("Starting Page: " + start);
+		console.log("End Page: " + end);	
+	}
+
+	document.getElementById('next').onclick = () => {
+		if(progress != diff && start != null && end != null){
+			progress++;
+			console.log("Counter: " + progress);
+			
+			document.getElementById('remaining_pages').innerHTML = diff - progress; //update pages
+			
+			let percent = (progress/diff) * 100;
+			percent = Math.round(percent * 100) / 100;
+			document.getElementById('percent').innerHTML = percent + " %"; //update percent
+
+			document.getElementById('progress').style.width = 1000 * (percent/100);
+		}
+	}
+
+	document.getElementById('reset').onclick = () => {
+		location.reload(true);
+	}
+</script>
